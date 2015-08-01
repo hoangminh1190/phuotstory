@@ -9,14 +9,14 @@ public class Story {
     private Long id;
     private String title;
     private String description;
-    private String location;
+    private String shortTitleLocation;
+    private String fullLocationList;
     private String photoUri;
     private String friends;
     private String feeling;
     private Long travelTime;
-    private Float lat;
-    private Float lng;
-    private Float road;
+    private Long createdTime;
+    private Double distance;
 
     public Story() {
     }
@@ -25,18 +25,18 @@ public class Story {
         this.id = id;
     }
 
-    public Story(Long id, String title, String description, String location, String photoUri, String friends, String feeling, Long travelTime, Float lat, Float lng, Float road) {
+    public Story(Long id, String title, String description, String shortTitleLocation, String fullLocationList, String photoUri, String friends, String feeling, Long travelTime, Long createdTime, Double distance) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.location = location;
+        this.shortTitleLocation = shortTitleLocation;
+        this.fullLocationList = fullLocationList;
         this.photoUri = photoUri;
         this.friends = friends;
         this.feeling = feeling;
         this.travelTime = travelTime;
-        this.lat = lat;
-        this.lng = lng;
-        this.road = road;
+        this.createdTime = createdTime;
+        this.distance = distance;
     }
 
     public Long getId() {
@@ -63,12 +63,20 @@ public class Story {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
+    public String getShortTitleLocation() {
+        return shortTitleLocation;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setShortTitleLocation(String shortTitleLocation) {
+        this.shortTitleLocation = shortTitleLocation;
+    }
+
+    public String getFullLocationList() {
+        return fullLocationList;
+    }
+
+    public void setFullLocationList(String fullLocationList) {
+        this.fullLocationList = fullLocationList;
     }
 
     public String getPhotoUri() {
@@ -103,28 +111,20 @@ public class Story {
         this.travelTime = travelTime;
     }
 
-    public Float getLat() {
-        return lat;
+    public Long getCreatedTime() {
+        return createdTime;
     }
 
-    public void setLat(Float lat) {
-        this.lat = lat;
+    public void setCreatedTime(Long createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public Float getLng() {
-        return lng;
+    public Double getDistance() {
+        return distance;
     }
 
-    public void setLng(Float lng) {
-        this.lng = lng;
-    }
-
-    public Float getRoad() {
-        return road;
-    }
-
-    public void setRoad(Float road) {
-        this.road = road;
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
 }

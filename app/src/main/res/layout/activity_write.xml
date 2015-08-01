@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:genius="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_alignParentTop="true"
+        android:id="@+id/end_point"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:text="@string/choose_location_in_trip"
+        />
+
+    <net.qiujuer.genius.widget.GeniusEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/end_point"
+        genius:g_cornerRadius="4dp"
+        genius:g_titleTextSize="12dp"
+        genius:g_showTitle="true"
+        genius:g_titleTextColor="@color/half_black"
+        android:textSize="14dp"
+        android:id="@+id/edt_title"
+        />
+
+    <net.qiujuer.genius.widget.GeniusTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_title"
+        android:id="@+id/tv_travel_time"
+        android:singleLine="true"
+        android:textSize="14dp"
+        />
+
+    <net.qiujuer.genius.widget.GeniusTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_travel_time"
+        android:id="@+id/tv_feeling"
+        android:maxLines="2"
+        android:textSize="14dp"
+        />
+    <net.qiujuer.genius.widget.GeniusTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_feeling"
+        android:id="@+id/tv_friends"
+        android:textSize="14dp"
+        />
+
+    <GridView
+        android:layout_below="@+id/tv_friends"
+        android:id="@+id/gridGallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginBottom="-10dp"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginRight="-10dp"
+        android:layout_marginTop="-10dp"
+        android:horizontalSpacing="-15dp"
+        android:numColumns="3"
+        android:padding="0dp"
+        android:verticalSpacing="-15dp"
+        tools:listitem="@layout/gallery_item" />
+
+
+
+    <include layout="@layout/include_write_fab" />
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:genius="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <net.qiujuer.genius.widget.GeniusEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_feeling"
+        genius:g_showTitle="false"
+        genius:g_cornerRadius="4dp"
+        genius:g_fieldStyle="box"
+        genius:g_textAppearance="dark"
+        />
+</LinearLayout>

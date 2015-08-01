@@ -26,14 +26,14 @@ public class StoryDao extends AbstractDao<Story, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
         public final static Property Description = new Property(2, String.class, "description", false, "DESCRIPTION");
-        public final static Property Location = new Property(3, String.class, "location", false, "LOCATION");
-        public final static Property PhotoUri = new Property(4, String.class, "photoUri", false, "PHOTO_URI");
-        public final static Property Friends = new Property(5, String.class, "friends", false, "FRIENDS");
-        public final static Property Feeling = new Property(6, String.class, "feeling", false, "FEELING");
-        public final static Property TravelTime = new Property(7, Long.class, "travelTime", false, "TRAVEL_TIME");
-        public final static Property Lat = new Property(8, Float.class, "lat", false, "LAT");
-        public final static Property Lng = new Property(9, Float.class, "lng", false, "LNG");
-        public final static Property Road = new Property(10, Float.class, "road", false, "ROAD");
+        public final static Property ShortTitleLocation = new Property(3, String.class, "shortTitleLocation", false, "SHORT_TITLE_LOCATION");
+        public final static Property FullLocationList = new Property(4, String.class, "fullLocationList", false, "FULL_LOCATION_LIST");
+        public final static Property PhotoUri = new Property(5, String.class, "photoUri", false, "PHOTO_URI");
+        public final static Property Friends = new Property(6, String.class, "friends", false, "FRIENDS");
+        public final static Property Feeling = new Property(7, String.class, "feeling", false, "FEELING");
+        public final static Property TravelTime = new Property(8, Long.class, "travelTime", false, "TRAVEL_TIME");
+        public final static Property CreatedTime = new Property(9, Long.class, "createdTime", false, "CREATED_TIME");
+        public final static Property Distance = new Property(10, Double.class, "distance", false, "DISTANCE");
     };
 
 
@@ -52,14 +52,14 @@ public class StoryDao extends AbstractDao<Story, Long> {
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TITLE\" TEXT," + // 1: title
                 "\"DESCRIPTION\" TEXT," + // 2: description
-                "\"LOCATION\" TEXT," + // 3: location
-                "\"PHOTO_URI\" TEXT," + // 4: photoUri
-                "\"FRIENDS\" TEXT," + // 5: friends
-                "\"FEELING\" TEXT," + // 6: feeling
-                "\"TRAVEL_TIME\" INTEGER," + // 7: travelTime
-                "\"LAT\" REAL," + // 8: lat
-                "\"LNG\" REAL," + // 9: lng
-                "\"ROAD\" REAL);"); // 10: road
+                "\"SHORT_TITLE_LOCATION\" TEXT," + // 3: shortTitleLocation
+                "\"FULL_LOCATION_LIST\" TEXT," + // 4: fullLocationList
+                "\"PHOTO_URI\" TEXT," + // 5: photoUri
+                "\"FRIENDS\" TEXT," + // 6: friends
+                "\"FEELING\" TEXT," + // 7: feeling
+                "\"TRAVEL_TIME\" INTEGER," + // 8: travelTime
+                "\"CREATED_TIME\" INTEGER," + // 9: createdTime
+                "\"DISTANCE\" REAL);"); // 10: distance
     }
 
     /** Drops the underlying database table. */
@@ -88,44 +88,44 @@ public class StoryDao extends AbstractDao<Story, Long> {
             stmt.bindString(3, description);
         }
  
-        String location = entity.getLocation();
-        if (location != null) {
-            stmt.bindString(4, location);
+        String shortTitleLocation = entity.getShortTitleLocation();
+        if (shortTitleLocation != null) {
+            stmt.bindString(4, shortTitleLocation);
+        }
+ 
+        String fullLocationList = entity.getFullLocationList();
+        if (fullLocationList != null) {
+            stmt.bindString(5, fullLocationList);
         }
  
         String photoUri = entity.getPhotoUri();
         if (photoUri != null) {
-            stmt.bindString(5, photoUri);
+            stmt.bindString(6, photoUri);
         }
  
         String friends = entity.getFriends();
         if (friends != null) {
-            stmt.bindString(6, friends);
+            stmt.bindString(7, friends);
         }
  
         String feeling = entity.getFeeling();
         if (feeling != null) {
-            stmt.bindString(7, feeling);
+            stmt.bindString(8, feeling);
         }
  
         Long travelTime = entity.getTravelTime();
         if (travelTime != null) {
-            stmt.bindLong(8, travelTime);
+            stmt.bindLong(9, travelTime);
         }
  
-        Float lat = entity.getLat();
-        if (lat != null) {
-            stmt.bindDouble(9, lat);
+        Long createdTime = entity.getCreatedTime();
+        if (createdTime != null) {
+            stmt.bindLong(10, createdTime);
         }
  
-        Float lng = entity.getLng();
-        if (lng != null) {
-            stmt.bindDouble(10, lng);
-        }
- 
-        Float road = entity.getRoad();
-        if (road != null) {
-            stmt.bindDouble(11, road);
+        Double distance = entity.getDistance();
+        if (distance != null) {
+            stmt.bindDouble(11, distance);
         }
     }
 
@@ -142,14 +142,14 @@ public class StoryDao extends AbstractDao<Story, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // title
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // description
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // location
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // photoUri
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // friends
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // feeling
-            cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // travelTime
-            cursor.isNull(offset + 8) ? null : cursor.getFloat(offset + 8), // lat
-            cursor.isNull(offset + 9) ? null : cursor.getFloat(offset + 9), // lng
-            cursor.isNull(offset + 10) ? null : cursor.getFloat(offset + 10) // road
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // shortTitleLocation
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // fullLocationList
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // photoUri
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // friends
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // feeling
+            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // travelTime
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // createdTime
+            cursor.isNull(offset + 10) ? null : cursor.getDouble(offset + 10) // distance
         );
         return entity;
     }
@@ -160,14 +160,14 @@ public class StoryDao extends AbstractDao<Story, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setDescription(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setLocation(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setPhotoUri(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setFriends(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setFeeling(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setTravelTime(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
-        entity.setLat(cursor.isNull(offset + 8) ? null : cursor.getFloat(offset + 8));
-        entity.setLng(cursor.isNull(offset + 9) ? null : cursor.getFloat(offset + 9));
-        entity.setRoad(cursor.isNull(offset + 10) ? null : cursor.getFloat(offset + 10));
+        entity.setShortTitleLocation(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setFullLocationList(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPhotoUri(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setFriends(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setFeeling(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setTravelTime(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
+        entity.setCreatedTime(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setDistance(cursor.isNull(offset + 10) ? null : cursor.getDouble(offset + 10));
      }
     
     /** @inheritdoc */

@@ -1,0 +1,3 @@
+include ':directionlibrary', ':dialoglibrary', ':app'
+include ':dragdroplibrary'
+include ':mediaChooserlib'

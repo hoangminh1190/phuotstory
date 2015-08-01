@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll1"
+    android:layout_width="wrap_content"
+    android:layout_height="36dp"
+    android:orientation="horizontal"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageButton
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/iconSize"
+        android:layout_height="@dimen/iconSize"
+        android:background="@null"
+        android:src="@drawable/ic_delete_black_48dp"
+        android:scaleType="centerInside"
+        />
+    <ImageButton
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/iconSize"
+        android:layout_height="@dimen/iconSize"
+        android:background="@null"
+        android:src="@drawable/ic_camera_alt_black_48dp"
+        android:scaleType="centerInside"
+        />
+    <ImageButton
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/iconSize"
+        android:layout_height="@dimen/iconSize"
+        android:background="@null"
+        android:src="@drawable/ic_share_black_48dp"
+        android:scaleType="centerInside"
+        />
+    <ImageButton
+        android:layout_gravity="center_vertical"
+        android:layout_width="@dimen/iconSize"
+        android:layout_height="@dimen/iconSize"
+        android:background="@null"
+        android:src="@drawable/ic_mode_edit_black_48dp"
+        android:scaleType="centerInside"
+        />
+
+</LinearLayout>

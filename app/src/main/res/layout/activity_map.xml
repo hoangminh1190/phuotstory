@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:genius="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        genius:popupTheme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:layout_alignParentTop="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/toolbar"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+
+        <net.qiujuer.genius.widget.GeniusEditText
+            genius:g_fieldStyle="transparent"
+            genius:g_showTitle="false"
+            genius:g_titleTextColor="@color/black_semi_transparent"
+            android:id="@+id/edt_search_address"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:hint="@string/search" />
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:contentDescription="@string/search"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_search_black_24dp"
+
+            />
+    </LinearLayout>
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll1"
+        android:layout_above="@+id/tv_address"
+        tools:context=".activity.MapActivity" />
+
+    <net.qiujuer.genius.widget.GeniusTextView
+        genius:g_textColor="light"
+        genius:g_backgroundColor="light"
+
+        android:id="@+id/tv_address"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:maxHeight="80dp"
+        android:layout_above="@+id/btn_choose"
+        android:maxLines="2"
+        android:gravity="center_vertical"
+        android:textColor="@color/black_semi_transparent"
+        android:textSize="14dp" />
+
+
+    <net.qiujuer.genius.widget.GeniusButton
+        genius:g_delayClick="true"
+        genius:g_touchEffect="move"
+        genius:g_touchEffectColor="@color/md_amber_900"
+        android:id="@+id/btn_choose"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@null"
+        android:textColor="@color/black_semi_transparent"
+        android:text="@string/choose"
+        android:textAllCaps="true"
+        />
+
+</RelativeLayout>

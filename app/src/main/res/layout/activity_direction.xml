@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="5">
+
+    <FrameLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        >
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <net.qiujuer.genius.widget.GeniusTextView
+            android:id="@+id/textProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 / 0"
+            app:g_textColor="main" />
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAnimate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start" />
+    </FrameLayout>
+
+    <net.qiujuer.genius.widget.GeniusTextView
+        android:id="@+id/start_address"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/half_black"
+        android:gravity="center"
+        app:g_backgroundColor="light"
+        app:g_textColor="main" />
+
+    <net.qiujuer.genius.widget.GeniusTextView
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/half_black"
+        android:gravity="center_vertical"
+        app:g_backgroundColor="light"
+        app:g_textColor="main" />
+
+    <net.qiujuer.genius.widget.GeniusButton
+        android:id="@+id/btn_choose"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/Done"
+        app:g_delayClick="true"
+        app:g_touchEffect="ripple" />
+</LinearLayout>
