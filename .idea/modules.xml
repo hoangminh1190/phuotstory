@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/dialoglibrary/dialoglibrary.iml" filepath="$PROJECT_DIR$/dialoglibrary/dialoglibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/directionlibrary/directionlibrary.iml" filepath="$PROJECT_DIR$/directionlibrary/directionlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/dragdroplibrary/dragdroplibrary.iml" filepath="$PROJECT_DIR$/dragdroplibrary/dragdroplibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mediaChooserlib/mediaChooserlib.iml" filepath="$PROJECT_DIR$/mediaChooserlib/mediaChooserlib.iml" />
     </modules>
   </component>
 </project>

@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/dialoglibrary" />
             <option value="$PROJECT_DIR$/directionlibrary" />
             <option value="$PROJECT_DIR$/dragdroplibrary" />
+            <option value="$PROJECT_DIR$/mediaChooserlib" />
           </set>
         </option>
       </GradleProjectSettings>
