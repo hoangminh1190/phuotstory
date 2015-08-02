@@ -5,6 +5,7 @@
     <dimen name="iconSize">24dp</dimen>
     <dimen name="photo_width">100dp</dimen>
     <dimen name="photo_height">100dp</dimen>
+    <dimen name="small_photo_dimen">30dp</dimen>
     <dimen name="custom_profile_padding">8dp</dimen>
     <dimen name="custom_profile_image">50dp</dimen>
 </resources>

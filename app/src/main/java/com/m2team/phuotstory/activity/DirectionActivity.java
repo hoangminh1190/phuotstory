@@ -23,7 +23,9 @@
 package com.m2team.phuotstory.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -42,6 +44,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
 import com.m2team.phuotstory.R;
+import com.m2team.phuotstory.common.Applog;
 import com.m2team.phuotstory.common.Common;
 import com.m2team.phuotstory.common.Constant;
 import com.m2team.phuotstory.model.MyLocation;
@@ -51,6 +54,13 @@ import net.qiujuer.genius.widget.GeniusTextView;
 
 import org.w3c.dom.Document;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import app.akexorcist.gdaplibrary.GoogleDirection;
@@ -159,7 +169,7 @@ public class DirectionActivity extends FragmentActivity {
                                 builder.include(latLng);
                             }
                             LatLngBounds bounds = builder.build();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 200));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300));
                             //clusterMarker(mMap, locations);
                         }
                     }
@@ -190,10 +200,38 @@ public class DirectionActivity extends FragmentActivity {
 
     @OnClick(R.id.btn_choose)
     public void done() {
-        Intent intent = new Intent();
+        final Intent intent = new Intent(DirectionActivity.this, WriteActivity.class);
+        intent.putExtra(Constant.ACTION_TYPE , Constant.TYPE_LOCATIONS);
         intent.putExtra(Constant.ARRAY_LOCATION, locations);
-        setResult(RESULT_OK, intent);
-        finish();
+        intent.putExtra(Constant.TOTAL_DISTANCE, totalDistance / 1000);
+        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+
+            @Override
+            public void onSnapshotReady(Bitmap bitmap) {
+                if (bitmap != null) {
+                    File file = new File(getFilesDir() + "/" + System.currentTimeMillis() + ".jpg");
+                    final int BUFFER_SIZE = 1024 * 8;
+                    try {
+                        file.createNewFile();
+                        FileOutputStream fos = new FileOutputStream(file);
+                        final BufferedOutputStream bos = new BufferedOutputStream(fos, BUFFER_SIZE);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                        bos.flush();
+                        bos.close();
+                        fos.close();
+                        Applog.d(file.getAbsolutePath());
+                        intent.putExtra(Constant.IMAGE_BITMAP_MAP, file.getAbsolutePath());
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private LatLng newLatLong(MyLocation location) {

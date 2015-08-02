@@ -12,11 +12,12 @@ public class Story {
     private String shortTitleLocation;
     private String fullLocationList;
     private String photoUri;
+    private String previewImageUri;
     private String friends;
     private String feeling;
     private Long travelTime;
     private Long createdTime;
-    private Double distance;
+    private Integer distance;
 
     public Story() {
     }
@@ -25,13 +26,14 @@ public class Story {
         this.id = id;
     }
 
-    public Story(Long id, String title, String description, String shortTitleLocation, String fullLocationList, String photoUri, String friends, String feeling, Long travelTime, Long createdTime, Double distance) {
+    public Story(Long id, String title, String description, String shortTitleLocation, String fullLocationList, String photoUri, String previewImageUri, String friends, String feeling, Long travelTime, Long createdTime, Integer distance) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.shortTitleLocation = shortTitleLocation;
         this.fullLocationList = fullLocationList;
         this.photoUri = photoUri;
+        this.previewImageUri = previewImageUri;
         this.friends = friends;
         this.feeling = feeling;
         this.travelTime = travelTime;
@@ -87,6 +89,14 @@ public class Story {
         this.photoUri = photoUri;
     }
 
+    public String getPreviewImageUri() {
+        return previewImageUri;
+    }
+
+    public void setPreviewImageUri(String previewImageUri) {
+        this.previewImageUri = previewImageUri;
+    }
+
     public String getFriends() {
         return friends;
     }
@@ -119,11 +129,11 @@ public class Story {
         this.createdTime = createdTime;
     }
 
-    public Double getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(Double distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 

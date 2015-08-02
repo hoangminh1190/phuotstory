@@ -3,15 +3,12 @@ package com.m2team.phuotstory.activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.view.menu.MenuBuilder;
-import android.support.v7.widget.ActionMenuPresenter;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -136,7 +132,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 Dialog dialog = new Dialog(MapActivity.this);
-                dialog.setContentView(R.layout.hetero_main);
+                dialog.setContentView(R.layout.layout_location_list_dialog);
                 dialog.setTitle(R.string.list_location_choose);
                 dragSortListView = (DragSortListView) dialog.findViewById(R.id.list_location);
                 locationListRecycleAdapter = new LocationListRecycleAdapter(MapActivity.this, locations);

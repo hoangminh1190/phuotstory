@@ -2,10 +2,10 @@ package com.m2team.phuotstory.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,20 +22,15 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.learnncode.mediachooser.MediaChooser;
+import com.learnncode.mediachooser.activity.BucketHomeFragmentActivity;
 import com.m2team.phuotstory.R;
+import com.m2team.phuotstory.common.Applog;
 import com.m2team.phuotstory.common.Common;
 import com.m2team.phuotstory.common.Constant;
+import com.m2team.phuotstory.mediachooser.MediaGridViewAdapter;
 import com.m2team.phuotstory.model.MyLocation;
 import com.m2team.phuotstory.model.Story;
-import com.m2team.phuotstory.pick.Action;
-import com.m2team.phuotstory.pick.CustomGallery;
-import com.m2team.phuotstory.pick.GalleryAdapter;
-import com.m2team.phuotstory.pick.PickerImageActivity;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.DialogFragment;
 
@@ -44,6 +39,7 @@ import net.qiujuer.genius.widget.GeniusTextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -66,21 +62,96 @@ public class WriteActivity extends AppCompatActivity {
     GeniusTextView tv_feeling;
     @Bind(R.id.tv_friends)
     GeniusTextView tv_friends;
-
+    @Bind(R.id.edt_title)
+    GeniusEditText edt_title;
     @Bind(R.id.fam)
     FloatingActionsMenu floatingActionsMenu;
-
+    @Bind(R.id.gridView)
+    GridView gridView;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     Story story;
     long storyId;
     GeniusEditText edt_feeling;
+    ArrayList<String> photoPaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+
+
         tv_travel_time.setVisibility(View.GONE);
+        gridView.setVisibility(View.GONE);
         story = new Story();
+        edt_title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                story.setTitle(s.toString().trim());
+            }
+        });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Applog.d("onNewIntent");
+        super.onNewIntent(intent);
+        setIntent(intent);
+        int type = intent.getIntExtra(Constant.ACTION_TYPE, 0);
+        if (type == Constant.TYPE_LOCATIONS)
+            processLocations(intent);
+        else if (type == Constant.TYPE_PHOTO)
+            processPhotoURI(intent);
+    }
+
+    private void processLocations(Intent data) {
+        Applog.d("pr locations");
+        ArrayList<MyLocation> locations = data.getParcelableArrayListExtra(Constant.ARRAY_LOCATION);
+        int distance = data.getIntExtra(Constant.TOTAL_DISTANCE, 0);
+        String imgPath = data.getStringExtra(Constant.IMAGE_BITMAP_MAP);
+        if (locations != null) {
+            ArrayList<String> shortAddress = Common.getShortAddress(locations);
+            story.setShortTitleLocation(TextUtils.join(Constant.COMMA + " ", shortAddress));
+            story.setFullLocationList(Common.objToString(locations));
+            story.setDistance(distance);
+            story.setPreviewImageUri(imgPath);
+        }
+    }
+
+    private void processPhotoURI(Intent intent) {
+        Applog.d("pr processPhotoURI");
+        photoPaths = intent.getStringArrayListExtra(Constant.ARRAY_PHOTO_URI);
+        if (photoPaths != null && photoPaths.size() > 0) {
+            gridView.setVisibility(View.VISIBLE);
+            showPhotoFragment(photoPaths);
+            story.setPhotoUri(TextUtils.join(",", photoPaths));
+        } else {
+            gridView.setVisibility(View.GONE);
+        }
+    }
+
+    MediaGridViewAdapter adapter;
+
+    private void showPhotoFragment(ArrayList<String> photoPaths) {
+        if (adapter == null) {
+            adapter = new MediaGridViewAdapter(this, 0, photoPaths, null, gridView, true);
+            gridView.setAdapter(adapter);
+        } else {
+            adapter.addAll(photoPaths);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -98,18 +169,30 @@ public class WriteActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_done) {
+            Applog.d("save");
+            story.setCreatedTime(System.currentTimeMillis());
+            long newId = Common.insertStory(this, story);
+            if (newId > 0)
+                setResult(RESULT_OK);
+            else setResult(RESULT_CANCELED);
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     @OnClick(R.id.end_point)
     public void chooseLocation() {
         Intent i = new Intent(this, MapActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivityForResult(i, Constant.REQ_CODE_DEST_MAP);
+        startActivity(i);
     }
 
     @OnClick(R.id.float_travel_time)
@@ -128,6 +211,7 @@ public class WriteActivity extends AppCompatActivity {
                 tv_travel_time.setVisibility(View.VISIBLE);
                 tv_travel_time.setText(dateFormat.format(dialog.getDate()));
                 if (floatingActionsMenu.isExpanded()) floatingActionsMenu.collapseImmediately();
+                story.setTravelTime(dialog.getDate());
                 super.onPositiveActionClicked(fragment);
             }
 
@@ -135,6 +219,7 @@ public class WriteActivity extends AppCompatActivity {
             public void onNegativeActionClicked(DialogFragment fragment) {
                 tv_travel_time.setVisibility(View.GONE);
                 tv_travel_time.setText("");
+                story.setTravelTime(null);
                 if (floatingActionsMenu.isExpanded()) floatingActionsMenu.collapseImmediately();
                 super.onNegativeActionClicked(fragment);
             }
@@ -167,6 +252,7 @@ public class WriteActivity extends AppCompatActivity {
                     public void onPositive(MaterialDialog dialog) {
                         tv_feeling.setVisibility(View.VISIBLE);
                         tv_feeling.setText(edt_feeling.getText());
+                        story.setFeeling(edt_feeling.getText().toString().trim());
                         dialog.dismiss();
                     }
 
@@ -181,32 +267,14 @@ public class WriteActivity extends AppCompatActivity {
                 if (floatingActionsMenu.isExpanded()) floatingActionsMenu.collapseImmediately();
             }
         });
-        final View positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
         View customView = dialog.getCustomView();
         if (customView != null) {
             edt_feeling = (GeniusEditText) customView.findViewById(R.id.edt_feeling);
             InputMethodManager im = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            im.showSoftInput(edt_feeling, InputMethodManager.SHOW_IMPLICIT);
+            im.showSoftInput(edt_feeling, 0);
             if (!TextUtils.isEmpty(tv_feeling.getText())) {
                 edt_feeling.setText(tv_feeling.getText());
-                positiveAction.setEnabled(true);
-            } else {
-                positiveAction.setEnabled(false); // disabled by default
             }
-            edt_feeling.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    positiveAction.setEnabled(s.toString().trim().length() > 0);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
         }
         dialog.show();
 
@@ -215,78 +283,11 @@ public class WriteActivity extends AppCompatActivity {
     @OnClick(R.id.float_photo)
     public void addPhoto() {
         if (floatingActionsMenu.isExpanded()) floatingActionsMenu.collapseImmediately();
-        /*initImageLoader();
-        init();
-        Intent i = new Intent(Action.ACTION_MULTIPLE_PICK);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivityForResult(i, Constant.REQ_CODE_PICK_PHOTOS);*/
-        startActivityForResult(new Intent(this, PickerImageActivity.class), Constant.REQ_CODE_PICK_PHOTOS);
+        MediaChooser.setSelectionLimit(20);
+        Intent intent = new Intent(this, BucketHomeFragmentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
-    GridView gridGallery;
-    GalleryAdapter adapter;
-    ImageLoader imageLoader;
 
-    private void initImageLoader() {
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-                .bitmapConfig(Bitmap.Config.RGB_565).build();
-        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(
-                this).defaultDisplayImageOptions(defaultOptions).memoryCache(
-                new WeakMemoryCache());
-
-        ImageLoaderConfiguration config = builder.build();
-        imageLoader = ImageLoader.getInstance();
-        imageLoader.init(config);
-    }
-
-    private void init() {
-        gridGallery = (GridView) findViewById(R.id.gridGallery);
-        gridGallery.setFastScrollEnabled(true);
-        adapter = new GalleryAdapter(this, imageLoader);
-        gridGallery.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Constant.REQ_CODE_DEST_MAP:
-                if (resultCode == RESULT_OK) {
-                    ArrayList<MyLocation> locations = data.getParcelableArrayListExtra(Constant.ARRAY_LOCATION);
-                    if (locations != null) {
-                        ArrayList<String> shortAddress = Common.getShortAddress(locations);
-                        story.setShortTitleLocation(TextUtils.join(Constant.COMMA + " ", shortAddress));
-                        story.setFullLocationList(Common.objToString(locations));
-                    } else {
-                        Toast.makeText(this, getString(R.string.fail_data), Toast.LENGTH_SHORT).show();
-                    }
-                    Log.v(Constant.TAG, "ok");
-
-                } else {
-                    Log.v(Constant.TAG, "cancel");
-                    Toast.makeText(this, getString(R.string.fail_data), Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case Constant.REQ_CODE_PICK_PHOTOS:
-                if (resultCode == RESULT_OK) {
-                        String[] all_path = data.getStringArrayExtra("all_path");
-
-                        ArrayList<CustomGallery> dataT = new ArrayList<CustomGallery>();
-
-                        for (String string : all_path) {
-                            CustomGallery item = new CustomGallery();
-                            item.sdcardPath = string;
-
-                            dataT.add(item);
-                        }
-
-                        adapter.addAll(dataT);
-
-                } else {
-                    Log.v(Constant.TAG, "cancel");
-                    Toast.makeText(this, getString(R.string.fail_pick_photo), Toast.LENGTH_SHORT).show();
-                }
-        }
-    }
 }

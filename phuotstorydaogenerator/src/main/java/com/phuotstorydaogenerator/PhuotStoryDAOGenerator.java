@@ -15,11 +15,12 @@ public class PhuotStoryDAOGenerator {
         story.addStringProperty("shortTitleLocation");
         story.addStringProperty("fullLocationList");
         story.addStringProperty("photoUri");
+        story.addStringProperty("previewImageUri");
         story.addStringProperty("friends");
         story.addStringProperty("feeling");
         story.addLongProperty("travelTime");
         story.addLongProperty("createdTime");
-        story.addDoubleProperty("distance");//km
+        story.addIntProperty("distance");//km
 
         Entity level = schema.addEntity("Level");
         level.addIdProperty();

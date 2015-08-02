@@ -19,12 +19,12 @@ public class Constant {
     public static final String TAG = "pshm";
     public static final String LAT_RESULT = "LAT_RESULT";
     public static final String LNG_RESULT = "LNG_RESULT";
-    public static final String ADDRESS_RESULT = "ADDRESS_RESULT";
-    public static final String PREF_HOME_LAT = "PREF_HOME_LAT";
-    public static final String PREF_HOME_LNG = "PREF_HOME_LNG";
-    public static final String PREF_HOME_ADDRESS = "PREF_HOME_ADDRESS";
-    public static final String SAVED_LOCATION_MAP = "SAVED_LOCATION_MAP";
-    public static final String ARRAY_LATLNG_START = "ARRAY_LATLNG_START" ;
+    public static final int TYPE_LOCATIONS = 2;
+    public static final int TYPE_PHOTO = 1;
+    public static final String ACTION_TYPE = "ACTION_TYPE";
+    public static final String IMAGE_BITMAP_MAP = "IMAGE_BITMAP_MAP";
+    public static final String TOTAL_DISTANCE = "TOTAL_DISTANCE";
+    public static final String PREF_PHOTO_LIST_URI = "PREF_PHOTO_LIST_URI" ;
     public static final String ARRAY_LOCATION = "ARRAY_LOCATION" ;
     public static final String DATABASE_NAME = "phuot-story" ;
 
@@ -39,4 +39,5 @@ public class Constant {
     public static final String COMMA = ",";
     public static final String ARRAY_PHOTO_URI = "ARRAY_PHOTO_URI";
     public static final String RESULT_DATA_LOCATION = "RESULT_DATA_LOCATION";
+    public static final int REQ_CODE_ADD_STORY = 3;
 }

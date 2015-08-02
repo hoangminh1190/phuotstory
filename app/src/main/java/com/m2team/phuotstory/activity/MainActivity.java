@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         // set the selection to the item with the identifier 5
-        result.setSelectionByIdentifier(5, false);
+        result.setSelection(0, true);
 
     }
 

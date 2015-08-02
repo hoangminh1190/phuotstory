@@ -1,3 +1,4 @@
-include ':directionlibrary', ':dialoglibrary', ':app'
+include ':directionlibrary', ':dialoglibrary', ':app', ':daogenerator'
 include ':dragdroplibrary'
 include ':mediaChooserlib'
+project(':daogenerator').projectDir = new File('phuotstorydaogenerator')

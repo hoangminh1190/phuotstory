@@ -1,6 +1,8 @@
 package com.m2team.phuotstory.fragment;
 
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,12 +10,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.m2team.phuotstory.R;
+import com.m2team.phuotstory.activity.WriteActivity;
 import com.m2team.phuotstory.adapter.RecycleAdapter;
+import com.m2team.phuotstory.common.Applog;
+import com.m2team.phuotstory.common.Common;
+import com.m2team.phuotstory.common.Constant;
 import com.m2team.phuotstory.model.Story;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +44,10 @@ public class MainFragment extends Fragment {
     private String mParam2;
     @Bind(R.id.recycle_view)
     RecyclerView recyclerView;
+    @Bind(R.id.floating_add)
+    FloatingActionButton floatingActionButton;
+    RecycleAdapter adapter;
+    List<Story> stories;
 
 
     /**
@@ -73,14 +87,18 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
-        ArrayList<Story> stories = new ArrayList<>();
-        stories.add(getStory());
-        stories.add(getStory());
-        stories.add(getStory());
-        stories.add(getStory());
-        stories.add(getStory());
-        stories.add(getStory());
-        RecycleAdapter adapter = new RecycleAdapter(getActivity(), stories);
+        floatingActionButton.setIcon(R.drawable.ic_add_black_24dp);
+        floatingActionButton.setColorNormal(Color.WHITE);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WriteActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivityForResult(intent, Constant.REQ_CODE_ADD_STORY);
+            }
+        });
+        stories = Common.queryStories(getActivity());
+        adapter = new RecycleAdapter(getActivity(), stories);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -88,15 +106,18 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    private Story getStory() {
-        Story story = new Story();
-        story.setTitle("Hello");
-        story.setFeeling("Feeling phiêu");
-        story.setFriends("JOJO DIE \t ZENITAR");
-        story.setDistance(425.5);
-        story.setShortTitleLocation("Hà Nội - Hà Giang");
-        return  story;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Applog.d("result: " + resultCode);
+        if (requestCode == Constant.REQ_CODE_ADD_STORY) {
+            if (resultCode == getActivity().RESULT_OK) {
+                stories = Common.queryStories(getActivity());
+                adapter.updateDataChanged(stories);
+                Toast.makeText(getActivity(), getString(R.string.success_add_story), Toast.LENGTH_SHORT).show();
+            } else {
+                //Toast.makeText(getActivity(), getString(R.string.fail_add_story), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
-
-
 }

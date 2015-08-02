@@ -29,11 +29,12 @@ public class StoryDao extends AbstractDao<Story, Long> {
         public final static Property ShortTitleLocation = new Property(3, String.class, "shortTitleLocation", false, "SHORT_TITLE_LOCATION");
         public final static Property FullLocationList = new Property(4, String.class, "fullLocationList", false, "FULL_LOCATION_LIST");
         public final static Property PhotoUri = new Property(5, String.class, "photoUri", false, "PHOTO_URI");
-        public final static Property Friends = new Property(6, String.class, "friends", false, "FRIENDS");
-        public final static Property Feeling = new Property(7, String.class, "feeling", false, "FEELING");
-        public final static Property TravelTime = new Property(8, Long.class, "travelTime", false, "TRAVEL_TIME");
-        public final static Property CreatedTime = new Property(9, Long.class, "createdTime", false, "CREATED_TIME");
-        public final static Property Distance = new Property(10, Double.class, "distance", false, "DISTANCE");
+        public final static Property PreviewImageUri = new Property(6, String.class, "previewImageUri", false, "PREVIEW_IMAGE_URI");
+        public final static Property Friends = new Property(7, String.class, "friends", false, "FRIENDS");
+        public final static Property Feeling = new Property(8, String.class, "feeling", false, "FEELING");
+        public final static Property TravelTime = new Property(9, Long.class, "travelTime", false, "TRAVEL_TIME");
+        public final static Property CreatedTime = new Property(10, Long.class, "createdTime", false, "CREATED_TIME");
+        public final static Property Distance = new Property(11, Integer.class, "distance", false, "DISTANCE");
     };
 
 
@@ -55,11 +56,12 @@ public class StoryDao extends AbstractDao<Story, Long> {
                 "\"SHORT_TITLE_LOCATION\" TEXT," + // 3: shortTitleLocation
                 "\"FULL_LOCATION_LIST\" TEXT," + // 4: fullLocationList
                 "\"PHOTO_URI\" TEXT," + // 5: photoUri
-                "\"FRIENDS\" TEXT," + // 6: friends
-                "\"FEELING\" TEXT," + // 7: feeling
-                "\"TRAVEL_TIME\" INTEGER," + // 8: travelTime
-                "\"CREATED_TIME\" INTEGER," + // 9: createdTime
-                "\"DISTANCE\" REAL);"); // 10: distance
+                "\"PREVIEW_IMAGE_URI\" TEXT," + // 6: previewImageUri
+                "\"FRIENDS\" TEXT," + // 7: friends
+                "\"FEELING\" TEXT," + // 8: feeling
+                "\"TRAVEL_TIME\" INTEGER," + // 9: travelTime
+                "\"CREATED_TIME\" INTEGER," + // 10: createdTime
+                "\"DISTANCE\" INTEGER);"); // 11: distance
     }
 
     /** Drops the underlying database table. */
@@ -103,29 +105,34 @@ public class StoryDao extends AbstractDao<Story, Long> {
             stmt.bindString(6, photoUri);
         }
  
+        String previewImageUri = entity.getPreviewImageUri();
+        if (previewImageUri != null) {
+            stmt.bindString(7, previewImageUri);
+        }
+ 
         String friends = entity.getFriends();
         if (friends != null) {
-            stmt.bindString(7, friends);
+            stmt.bindString(8, friends);
         }
  
         String feeling = entity.getFeeling();
         if (feeling != null) {
-            stmt.bindString(8, feeling);
+            stmt.bindString(9, feeling);
         }
  
         Long travelTime = entity.getTravelTime();
         if (travelTime != null) {
-            stmt.bindLong(9, travelTime);
+            stmt.bindLong(10, travelTime);
         }
  
         Long createdTime = entity.getCreatedTime();
         if (createdTime != null) {
-            stmt.bindLong(10, createdTime);
+            stmt.bindLong(11, createdTime);
         }
  
-        Double distance = entity.getDistance();
+        Integer distance = entity.getDistance();
         if (distance != null) {
-            stmt.bindDouble(11, distance);
+            stmt.bindLong(12, distance);
         }
     }
 
@@ -145,11 +152,12 @@ public class StoryDao extends AbstractDao<Story, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // shortTitleLocation
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // fullLocationList
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // photoUri
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // friends
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // feeling
-            cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8), // travelTime
-            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // createdTime
-            cursor.isNull(offset + 10) ? null : cursor.getDouble(offset + 10) // distance
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // previewImageUri
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // friends
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // feeling
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // travelTime
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10), // createdTime
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11) // distance
         );
         return entity;
     }
@@ -163,11 +171,12 @@ public class StoryDao extends AbstractDao<Story, Long> {
         entity.setShortTitleLocation(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setFullLocationList(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setPhotoUri(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setFriends(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setFeeling(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setTravelTime(cursor.isNull(offset + 8) ? null : cursor.getLong(offset + 8));
-        entity.setCreatedTime(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
-        entity.setDistance(cursor.isNull(offset + 10) ? null : cursor.getDouble(offset + 10));
+        entity.setPreviewImageUri(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setFriends(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setFeeling(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setTravelTime(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setCreatedTime(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
+        entity.setDistance(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
      }
     
     /** @inheritdoc */

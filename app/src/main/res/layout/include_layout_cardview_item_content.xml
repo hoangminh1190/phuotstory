@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/ll1"
+    android:layout_gravity="bottom|start"
     android:layout_alignParentBottom="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentLeft="true"
     android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="Nice trip"
@@ -25,6 +24,13 @@
         android:gravity="center_vertical"
         android:text="Hà Giang"
         android:textSize="10dp" />
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="425 km"
+        android:textSize="10dp" />
 
     <TextView
         android:id="@+id/travel_time"
@@ -34,6 +40,7 @@
         android:textSize="10dp" />
 
     <TextView
+        android:id="@+id/tv_feeling"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Feeling phiêu with: "

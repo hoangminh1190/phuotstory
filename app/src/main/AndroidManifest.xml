@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.m2team.phuotstory">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,46 +20,59 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" />
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAmxmD4IS_OD130dfbXmzin0PLP7qZv2GM" />
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCeP-AjXq9PNEhDWbuvwhZLiafJkwQ1PEA" /> key for lap work-->
+            android:value="AIzaSyCeP-AjXq9PNEhDWbuvwhZLiafJkwQ1PEA" /> key for lap work
+        -->
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name"></activity>
-        <activity android:name=".activity.WriteActivity">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.WriteActivity"
+            android:launchMode="singleTask">
+
+        </activity>
         <activity
             android:name=".activity.MapActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
             android:label=""
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".activity.DirectionActivity"
-            android:theme="@android:style/Theme.NoTitleBar"></activity>
-        <activity android:name=".pick.PickerImageActivity"></activity>
-        <activity android:name=".pick.CustomGalleryActivity">
-            <intent-filter>
-                <action android:name="luminous.ACTION_PICK" />
-                <action android:name="luminous.ACTION_MULTIPLE_PICK" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name="com.learnncode.mediachooser.activity.BucketHomeFragmentActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".mediachooser.MediaChooseActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
 
         <service
             android:name=".service.FetchAddressService"
             android:exported="false" />
+
+        <receiver
+            android:name=".service.MediaReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="9999">
+                <action android:name="lNc_videoSelectedAction" />
+                <action android:name="lNc_imageSelectedAction" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
