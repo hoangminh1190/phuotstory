@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/tab_selected" android:state_selected="true" />
+  <!--   <item android:drawable="@drawable/tab_unselected"/> -->
+
+</selector><!-- From: file:/D:/Work/Android%20Projects/PhuotStory/mediaChooserlib/src/main/res/drawable/tab_selector.xml --><!-- From: file:/D:/Work/Android%20Projects/PhuotStory/mediaChooserlib/build/intermediates/bundles/debug/res/drawable/tab_selector.xml -->

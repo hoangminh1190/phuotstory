@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/imageViewFromMediaChooserGridItemRowView"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <CheckedTextView
+        android:id="@+id/checkTextViewFromMediaChooserGridItemRowView"
+        style="@style/AppBaseTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/imageViewFromMediaChooserGridItemRowView"
+        android:checkMark="@drawable/selector_check"
+        android:padding="5dp"
+        android:paddingBottom="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout><!-- From: file:/D:/Work/Android%20Projects/PhuotStory/mediaChooserlib/src/main/res/layout/view_grid_item_media_chooser.xml --><!-- From: file:/D:/Work/Android%20Projects/PhuotStory/mediaChooserlib/build/intermediates/bundles/debug/res/layout/view_grid_item_media_chooser.xml -->
